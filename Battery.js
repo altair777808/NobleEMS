@@ -48,7 +48,7 @@ export default class Battery extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.instructions}>
-          IconBt {this.state.batteryLevel}%
+           Battery level: {this.state.batteryLevel}%
         </Text>
         {chargingText}
       </View>

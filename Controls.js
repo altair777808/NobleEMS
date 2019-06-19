@@ -13,25 +13,29 @@ class Controls extends Component {
 	constructor(props) {
 		super(props);
 		
-		this.state = {value: props.value }
+		this.state = {value: props.value, count: 0 }
 	}
 	
 	onIncrease = () => {
+		if(this.state.count <= 10) {
 		this.setState({
-			
+			value: this.state.count++
 		})
+		}
 	}
 	 
 	onPressPlay = () => {		
 		this.setState({
-			
+			value: this.props.value
 		})
 	}
 	
 	onDecrease = () => {
-		this.setState({
-			
-		})
+		if(this.state.count >= 0) {
+			this.setState({
+				value: this.state.count--
+			})
+			}
 	}
 
   render() {
@@ -40,19 +44,19 @@ class Controls extends Component {
 			<View style={{width: 40}} />
 			<TouchableOpacity onPress={this.onIncrease}>
 				<View style={styles.volume}>
-					<Text>+</Text>
+					<Text style = {styles.button_volume}>+</Text>
 				</View>
 			</TouchableOpacity>
-			<View style={{width: 20}} />
+			<Text style = {{fontSize: 4,}}/>
 			  <TouchableOpacity onPress={this.onPressPlay}>
 				<View style={styles.playButton}>
 					<Text>{this.state.value}</Text>
 				</View>
 			  </TouchableOpacity> 
-			<View style={{width: 20}} />
+			<Text style = {{fontSize: 4,}}/>
 			<TouchableOpacity onPress={this.onDecrease}>
 				<View style={styles.volume}>
-					<Text>-</Text>
+					<Text style = {styles.button_volume}>-</Text>
 				</View>
 			</TouchableOpacity>
 		  </View>
@@ -90,6 +94,10 @@ const styles = StyleSheet.create({
     borderRadius: 28 / 2,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button_volume: {
+	  fontSize: 20,
+	  color: '#fff',
   },
   secondaryControl: {
     height: 18,

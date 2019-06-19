@@ -11,18 +11,18 @@ export default class Widjet extends Component {
 	constructor(props) {
 		super(props);
 		
-		this.state = {value: props.value }
+		this.state = {value: props.value, count: 0 }
 	}
 	
 	onIncrease = () => {
 		this.setState({
-			
+			value: count++
 		})
 	}
 	
 	onDecrease = () => {
 		this.setState({
-			
+			value: count--
 		})
 	}
 	
@@ -35,8 +35,8 @@ export default class Widjet extends Component {
 				<Text></Text>
 				<Text></Text>
 				<TouchableOpacity onPress={this.onIncrease}>
-					<View style={styles.volume}>
-						<Text>+</Text>
+					<View  style={[styles.volume, {alignItems: 'center'}]}>
+						<Text style = {styles.button_volume}>+</Text>
 					</View>
 				</TouchableOpacity>
 				<Text></Text>
@@ -46,15 +46,15 @@ export default class Widjet extends Component {
 				<Clock/>
 				<Text></Text>
 				<Text></Text>
-				<Text style = {{fontSize: 1,}}></Text>
-				<TouchableOpacity onPress={this.onDecrease}>
-					<View style={styles.volume}>
-						<Text>-</Text>
+				<Text style = {{fontSize: 12,}}></Text>
+				<TouchableOpacity  onPress={this.onDecrease}>
+					<View  style={[styles.volume, {alignItems: 'center'}]}>
+						<Text style = {styles.button_volume}>-</Text>
 					</View>
 					</TouchableOpacity>
 			</View>
 			
-			<CircleSlider value = {90}/>
+			<CircleSlider value = {this.state.value}/>
 			
 		  </View>
 		);
@@ -63,14 +63,18 @@ export default class Widjet extends Component {
 }
 
 const styles = StyleSheet.create({
-  volume: {
-	height: 45,
-    width: 45,
-    borderWidth: 1,
-	borderColor: '#72a2f6',
-	backgroundColor: '#72a2f6',
-    borderRadius: 45 / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	button_volume: {
+	  fontSize: 25,
+	  color: '#fff',
+	},
+	volume: {
+		height: 35,
+		width: 35,
+		borderWidth: 1,
+		borderColor: '#72a2f6',
+		backgroundColor: '#72a2f6',
+		borderRadius: 35 / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 })

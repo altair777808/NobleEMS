@@ -77,11 +77,7 @@ export default class CircleSlider extends Component {
           stroke={this.props.strokeColor}
           strokeWidth={this.props.strokeWidth}
           fill={this.props.fillColor}/>
-		  
-		  
-		  
-		
-
+          
         <Path stroke={this.props.meterColor}
           strokeWidth={this.props.dialWidth}
           fill='none'
