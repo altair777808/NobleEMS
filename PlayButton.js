@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import play from './img/icon_play.png';
+import pause from './img/icon_pause.png';
 
 export default class PlayButton extends Component {
 	
@@ -9,32 +11,25 @@ export default class PlayButton extends Component {
 
 		this.state = {
 		   paused: true,
-		   value: 'play' 
+		   value: play
 		};
 	}
 	
-	onPressPlay = () => {	
-		if (!this.state.paused) {
-			this.setState({
-				paused: true,
-				value: 'pause'
-			});
-		}
-		else {
-			this.setState({
-				paused: false,
-				value: 'play'
-			});
-		}
+	renderPlay() {	
+		var sour = this.state.paused ? play : pause;
+		return (
+			<Image
+				source={ sour }
+			/>
+		);
 	}
+	
 	
 	render() {
 	  return(
 		<View style={styles.container}>
-			<TouchableOpacity style = {styles.PlayButton} onPress={this.onPressPlay}>
-			<View >
-				<Text>{this.state.value}</Text>
-			</View>
+			<TouchableOpacity style = {styles.PlayButton}  onPress={ () => this.setState({ paused: !this.state.paused }) }  >
+			{this.renderPlay()}
 			</TouchableOpacity>
 		</View>
 	  );

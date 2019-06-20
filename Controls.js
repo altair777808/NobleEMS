@@ -19,21 +19,21 @@ class Controls extends Component {
 	onIncrease = () => {
 		if(this.state.count <= 10) {
 		this.setState({
-			value: this.state.count++
+			value: this.props.value + ' ' + this.state.count++
 		})
 		}
 	}
 	 
 	onPressPlay = () => {		
 		this.setState({
-			value: this.props.value
+
 		})
 	}
 	
 	onDecrease = () => {
 		if(this.state.count >= 0) {
 			this.setState({
-				value: this.state.count--
+				value: this.props.value + ' ' + this.state.count--
 			})
 			}
 	}

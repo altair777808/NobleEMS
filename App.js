@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,Image, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text,Image, StyleSheet, TouchableOpacity } from 'react-native';
 import CircleSlider from './CircleSlider';
 import Controls from './Controls';
 import Clock from './Clock';
@@ -37,12 +37,13 @@ class HomeScreen extends React.Component {
 	render() {
 		const {navigate} = this.props.navigation;
 	return(
-		<View style={{flex: 1,  justifyContent: 'space-evenly', backgroundColor: 'white'}} >
+		<View style={{flex: 1,  alignItems: 'center', justifyContent: 'center', backgroundColor: '#31789d'}} >
 			<Image source ={logo}/>
-				<Button style = {styles.button_begin}
-				title = "Начать тренировку!"
-				onPress = {()=>navigate('Second')}
-				/>
+				<TouchableOpacity style = {styles.button_begin}
+				onPress = {()=>navigate('Second')} >
+					<Text style={styles.welcome}>Начать тренировку!</Text>
+				</TouchableOpacity>
+
 		</View>
 	);
 	}
@@ -56,6 +57,9 @@ class HomeScreen extends React.Component {
 		super(props);
 		
 		this.state = {
+			id_costume: 0,
+			index_mode: 0,
+			value: 10,
 			top_value1 : -1,
 			top_value2 : -1,
 			top_value4 : -1,
@@ -79,31 +83,6 @@ class HomeScreen extends React.Component {
 			bottom_image_before: [bottom_img1_before, bottom_img2_before, bottom_img3_before, bottom_img4_before, bottom_img5_before],
 			bottom_image_after: [bottom_img1_after, bottom_img2_after, bottom_img3_after, bottom_img4_after, bottom_img5_after],
 		};
-	}
-
-	click_img1_top() {
-
-		if (this.state.top_value1 != -1) {
-			this.setState({
-				value: this.state.top_value1
-				});
-		}
-		else {
-			this.setState({
-				value: 0
-				});
-		}
-	
-		this.setState({ top_clicked1: !this.state.top_clicked1 });
-	
-		if (!this.state.top_clicked1) {
-			this.setState({ value: 0, top_value1 : 0 });
-		}
-	
-		this.setState({
-			top_value1: this.state.value
-		});
-	
 	}
 
 	render_top1_image() {
@@ -187,8 +166,50 @@ class HomeScreen extends React.Component {
         );
     }
 
+	renderWidget() {
+		let val = this.state.value;
+
+		return(
+			<Widjet value = {val}/>
+		)
+	}
+
+	click_img1_top() {
+
+		if (this.state.top_value1 != -1) {
+			this.setState({
+				value: this.state.top_value1
+				});
+		}
+		else {
+			this.setState({
+				value: 0
+				});
+		}
+	
+		this.setState({ top_clicked1: !this.state.top_clicked1 });
+	
+		if (!this.state.top_clicked1) {
+			this.setState({ value: 0, top_value1 : 0 });
+		}
+	
+		this.setState({
+			top_value1: this.state.value
+		});
+	
+	}
+	
+	ActionEvent_Stop(){
+		this.setState({
+			value: 0,
+		})
+	}
+
+
 
 	render() {
+		const costume =  ['Первый', 'Второй', 'Третий', 'Четвертый', 'Пятый', 'Шестой', 'Седьмой', 'Восьмой'];
+		const mode = ['Силовой', 'Кардио', 'Снижение веса', 'Для тренера', 'Антициллюлит', 'Тонизирующий', 'Укрепляющий', 'Лимфодренажный массаж', 'Расслабляющий массаж', 'Восстанавливающий массаж'];
     	return (
       <View style={{flex: 1, flexDirection: 'row',
         justifyContent: 'space-evenly', backgroundColor: 'white'}}>
@@ -201,26 +222,26 @@ class HomeScreen extends React.Component {
 			alignItems: 'center'
 			}}>
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 0 }) }  >
 				<View>
 					<Text>1</Text>
 				</View>
 			</TouchableOpacity>
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 1 }) }  >
 				<View>
 					<Text>2</Text>
 				</View>
 			</TouchableOpacity> 
 			
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 2 }) }  >
 				<View>
 					<Text>3</Text>
 				</View>
 			</TouchableOpacity> 
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 3 }) }  >
 				<View>
 					<Text>4</Text>
 				</View>
@@ -243,7 +264,7 @@ class HomeScreen extends React.Component {
 			
 			<View>
 				<Text>Костюм:</Text>
-				<Text>первый</Text>
+				<Text>{costume[this.state.id_costume]}</Text>
 				<Text style = {{fontSize: 17}}></Text>
 			</View>
 			
@@ -307,7 +328,7 @@ class HomeScreen extends React.Component {
 			</View>
 		</TouchableOpacity> 
 		
-		<Widjet value = {this.state.value}/>
+		{this.renderWidget()}
 		<Text></Text>
 		
 		<TouchableOpacity style = {styles.Button}>
@@ -364,10 +385,15 @@ class HomeScreen extends React.Component {
 	  
 		  <Controls value = 'Мастер' />
 			
-			<View>
+			<TouchableOpacity style = {styles.mode_button} onPress={ () => {
+				if(this.state.index_mode < mode.length-1)
+					this.setState({ index_mode: this.state.index_mode + 1 }) 
+				else 
+					this.setState({ index_mode: 0 }) 
+				}}  >
 				<Text>Режим: </Text>
-				<Text>силовой</Text>
-			</View>
+				<Text>{mode[this.state.index_mode]}</Text>
+			</TouchableOpacity>
 			
 			<Controls value = 'Пауза' />
 		
@@ -380,26 +406,26 @@ class HomeScreen extends React.Component {
 			marginRight: 13,
 			}}>
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 4 }) }  >
 				<View>
 					<Text>5</Text>
 				</View>
 			</TouchableOpacity>
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 5 }) }  >
 				<View>
 					<Text>6</Text>
 				</View>
 			</TouchableOpacity> 
 			
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 6}) }  >
 				<View>
 					<Text>7</Text>
 				</View>
 			</TouchableOpacity> 
 			
-			<TouchableOpacity style = {styles.Button}>
+			<TouchableOpacity style = {styles.Button} onPress={ () => this.setState({ id_costume: 7}) }  >
 				<View>
 					<Text>8</Text>
 				</View>
@@ -423,9 +449,25 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   button_begin: {
+    marginRight:40,
+    marginLeft:40,
+   	marginTop:10,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#fff',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  mode_button: {
+	height: 72,
+    width: 72,
+    borderWidth: 1,
+	backgroundColor: '#fff',
+    borderColor: '#fff',
+    borderRadius: 72 / 2,
     alignItems: 'center',
-    backgroundColor: '#000000',
-    padding: 10
+    justifyContent: 'center',
   },
   Button: {
     height: 52,
@@ -438,6 +480,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  welcome: {
+	color:'#31789d',
+	textAlign:'center',
+	paddingLeft : 10,
+	paddingRight : 10
+  }
 });
 
 const AppNavigator = createStackNavigator({
